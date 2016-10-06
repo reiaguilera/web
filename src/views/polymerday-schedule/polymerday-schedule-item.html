@@ -102,7 +102,7 @@
 
     <div class="header">
       <header class="header__title">
-        <h2 class="title item-title">[[event.name]]</h2>
+        <h2 class="title item-title">[[_getLanguageIcon(event.language)]][[event.name]]</h2>
         <p class="subtitle item-subtitle">[[event.speaker]]</p>
       </header>
 
@@ -117,7 +117,7 @@
       <div class="summary">
         <p class="summary__content text--default">[[event.description]]</p>
         <template is="dom-if" if="[[_hasSpeaker(event)]]">
-          <a href="/speakers/{{event.speakerId}}"><paper-button class="btn--primary" inner-h-t-m-l="[[localize('speakers.showSpeaker', 'speaker', event.speaker)]]"></paper-button></a>
+          <a href="/speakers/#{{event.speakerId}}"><paper-button class="btn--primary" inner-h-t-m-l="[[localize('speakers.showSpeaker', 'speaker', event.speaker)]]"></paper-button></a>
         </template>
       </div>
     </iron-collapse>
@@ -148,8 +148,6 @@
       var localizeKey = this.opened ? 'schedule.hideSummary' : 'schedule.showSummary';
       if (this.localize) {
         return this.localize(localizeKey, 'speaker', this.event.speaker);
-      } else {
-        this.debounce('_computeToggleLabel', this._computeToggleLabel.bind(this));
       }
     },
 
@@ -179,6 +177,16 @@
       var dateStart = new Date(start+diff) ;
       var dateEnd = new Date(end+diff);
       return this._getTimeMinutes(dateStart) + ' - ' + this._getTimeMinutes(dateEnd);
+    },
+
+    _getLanguageIcon: function(language) {
+      if (language === 'en') {
+        return '🇺🇸 ';
+      } else if (language === 'es') {
+        return '🇪🇸 ';
+      } else {
+        return undefined;
+      }
     }
   });
   </script>
