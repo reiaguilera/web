@@ -20,9 +20,12 @@
     }
 
     .container {
+      display: -ms-flexbox;
       display: flex;
-      flex-direction: column-reverse;
-      align-items: center;
+      -ms-flex-direction: column-reverse;
+          flex-direction: column-reverse;
+      -ms-flex-align: center;
+          align-items: center;
       text-align: center;
       padding: 0 24px;
     }
@@ -41,6 +44,7 @@
     }
 
     .info {
+      -ms-flex-positive: 1;
       flex-grow: 1;
     }
 
@@ -57,15 +61,21 @@
     }
 
     .info__speaker-links {
+      display: -ms-flexbox;
       display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      justify-content: center;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+      -ms-flex-pack: center;
+          justify-content: center;
     }
 
     .talk-link {
+      -ms-flex-order: 1;
       order: 1;
-      flex: 1 1 100%;
+      -ms-flex: 1 1 100%;
+          flex: 1 1 100%;
       margin: 24px 24px 24px 0;
     }
 
@@ -78,8 +88,10 @@
       font-size: var(--text-size-default);
       color: var(--color-grey-primary);
       text-decoration: none;
+      display: -ms-flexbox;
       display: flex;
-      align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
     }
 
     .text-icon-link iron-icon {
@@ -103,11 +115,14 @@
 
     @media (min-width:720px) {
       .container {
+        -ms-flex-direction: row;
         flex-direction: row;
         text-align: left;
-        align-items: flex-start;
+        -ms-flex-align: start;
+            align-items: flex-start;
       }
       .container.image-left {
+        -ms-flex-direction: row-reverse;
         flex-direction: row-reverse;
       }
       iron-image {
@@ -118,26 +133,28 @@
         margin-right: 0;
       }
       .info__speaker-links {
+        -ms-flex-pack: start;
         justify-content: flex-start;
       }
       .talk-link {
+        -ms-flex-order: 0;
         order: 0;
-        flex: none;
+        -ms-flex: none;
+            flex: none;
       }
     }
 
     </style>
 
     <div class$="container [[_imagePositionClass(imageLeft)]]">
-      <div class="info">
-        <a name="[[_computeAnchorName(speaker.id)]]"></a>
+      <div class="info" id="[[_computeAnchorName(speaker.id)]]">
         <h2 class="item-title">[[speaker.name]]</h2>
         <span class="item-subtitle">[[speaker.job]]</span>
         <p class="description">[[speaker.description]]</p>
         <div class="info__speaker-links">
           <template is="dom-if" if="[[speaker.talk]]">
             <a class="talk-link" href="[[speaker.talk]]" tabindex="-1">
-              <paper-button class="btn--primary" inner-h-t-m-l="[[localize('speakers.showTalk', 'speaker', speaker.name)]]"></paper-button>
+              <paper-button class="btn--primary" aria-label$="[[localize('speakers.showTalkLbl', 'speaker', speaker.name)]]">[[localize('speakers.showTalk')]]</paper-button>
             </a>
           </template>
           <template is="dom-if" if="[[speaker.web]]">
@@ -214,7 +231,7 @@
       var L = document.querySelector('polymerday-app').shadowRoot.querySelector('app-drawer-layout');
       var M = L.querySelector('polymerday-speakers').shadowRoot.querySelectorAll('polymerday-speaker');
       for (var i = 0; i < M.length; i++) {
-        var anchor = M[i].shadowRoot.querySelector('a[name="' + hash + '"]');
+        var anchor = M[i].shadowRoot.querySelector('div[id="' + hash + '"]');
         if (anchor) {
           console.log(M[i].id + '===' + hash);
           anchor.scrollIntoView(true);
