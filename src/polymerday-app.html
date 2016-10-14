@@ -230,6 +230,11 @@
           top: 320px;
         }
 
+        :host([page="sponsor-microsite"]) .tickets {
+          position: absolute;
+          top: 27.5em;
+        }
+
         .tickets-mobile {
           display: none;
         }
@@ -312,7 +317,7 @@
           <polymerday-speakers name="speakers"></polymerday-speakers>
           <polymerday-schedule name="schedule" route="{{subroute}}"></polymerday-schedule>
           <polymerday-venue name="venue"></polymerday-venue>
-          <polymerday-sponsors name="sponsors"></polymerday-sponsors>
+          <polymerday-sponsors name="sponsors" route="{{subroute}}"></polymerday-sponsors>
           <polymerday-cookies name="cookies"></polymerday-cookies>
         </iron-pages>
 

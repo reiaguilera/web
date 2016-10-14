@@ -1,0 +1,104 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/iron-media-query/iron-media-query.html">
+
+<link rel="import" href="../commons/polymerday-data.html">
+
+<dom-module id="polymerday-sponsor-microsite">
+  <template>
+
+    <style include="polymerday-classes">
+      :host {
+        display: block;
+      }
+
+      .banner-image {
+        width: 100%;
+      }
+
+      .pd-card__link > a::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .pd-card {
+        position: relative;
+      }
+    </style>
+
+    <iron-media-query query="(min-width: 45em)" query-matches="{{isBigScreen}}"></iron-media-query>
+
+    <polymerday-data
+      id="data"
+      page="sponsors"
+      order-by-key
+      equal-to="[[sponsor]]"
+      data="{{sponsorsData}}"></polymerday-data>
+
+    <a href="[[sponsorData.banner.link]]" target="_blank">
+      <img class="banner-image" src$="[[_computeBannerImage(isBigScreen, sponsorData.banner)]]" alt$="[[sponsorData.banner.alt]]">
+    </a>
+
+    <div class="content">
+      <div class="double-layout hotel-list">
+        <template is="dom-repeat" items="[[sponsorData.services]]">
+          <paper-card class="double-layout__item pd-card" image="[[item.image]]">
+            <div class="pd-card__content">
+              <div class="pd-card__link">
+                <a href$="[[item.link]]" target="_blank"></a>
+              </div>
+              <p>[[item.text]]</p>
+            </div>
+          </paper-card>
+        </template>
+      </div>
+    </div>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'polymerday-sponsor-microsite',
+
+      properties: {
+        sponsor: {
+          type: String,
+          notify: true
+        },
+        sponsorData: Object,
+        sponsorsData: Array
+      },
+
+      observers: [
+          '_getSponsor(sponsorsData.length)'
+      ],
+
+      _getSponsor: function(length) {
+        if (length) {
+          var sponsorData = this.$.data.child(this.sponsor);
+          if (sponsorData && sponsorData.banner) {
+            this.set('sponsorData', sponsorData);
+          } else {
+            this.sponsor = '';
+          }
+        }
+      },
+
+      _computeBannerImage: function(isBigScreen, banner) {
+        if (isBigScreen) {
+          return banner.big || banner.small;
+        } else {
+          return banner.small || banner.big;
+        }
+      }
+    });
+
+  </script>
+</dom-module>
